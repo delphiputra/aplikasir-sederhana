@@ -43,14 +43,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: Colors.blueAccent,
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    child: const Text(
-                      'Selamat Datang di Dashboard!',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child: Center(
+  child: const Text(
+    'Selamat Datang di Dashboard Kasir',
+    style: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+    ),
+    textAlign: TextAlign.center, // Pastikan teks terpusat jika lebih dari satu baris
+  ),
+),
+
                   ),
                   const SizedBox(height: 20),
 
