@@ -1,7 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  String userRole = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserRole();
+  }
+
+  Future<void> _loadUserRole() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userRole = prefs.getString('role') ?? '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,36 +61,7 @@ class DashboardScreen extends StatelessWidget {
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      _buildDashboardMenu(
-                        context,
-                        title: 'Kelola Menu',
-                        icon: Icons.restaurant_menu,
-                        color: Colors.orange,
-                        route: '/menu',
-                      ),
-                      _buildDashboardMenu(
-                        context,
-                        title: 'Transaksi',
-                        icon: Icons.shopping_cart,
-                        color: Colors.green,
-                        route: '/transaction',
-                      ),
-                      _buildDashboardMenu(
-                        context,
-                        title: 'Laporan',
-                        icon: Icons.bar_chart,
-                        color: Colors.blue,
-                        route: '/report',
-                      ),
-                      _buildDashboardMenu(
-                        context,
-                        title: 'Kelola Akun',
-                        icon: Icons.person_add,
-                        color: Colors.teal,
-                        route: '/register',
-                      ),
-                    ],
+                    children: _getDashboardMenus(context),
                   ),
                 ],
               ),
@@ -109,6 +101,50 @@ class DashboardScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  List<Widget> _getDashboardMenus(BuildContext context) {
+    List<Widget> menus = [];
+
+    // Menu untuk semua role
+    menus.addAll([
+      _buildDashboardMenu(
+        context,
+        title: 'Kelola Menu',
+        icon: Icons.restaurant_menu,
+        color: Colors.orange,
+        route: '/menu',
+      ),
+      _buildDashboardMenu(
+        context,
+        title: 'Transaksi',
+        icon: Icons.shopping_cart,
+        color: Colors.green,
+        route: '/transaction',
+      ),
+    ]);
+
+    // Menu khusus untuk role Administrator
+    if (userRole == 'Administrator') {
+      menus.addAll([
+        _buildDashboardMenu(
+          context,
+          title: 'Laporan',
+          icon: Icons.bar_chart,
+          color: Colors.blue,
+          route: '/report',
+        ),
+        _buildDashboardMenu(
+          context,
+          title: 'Kelola Akun',
+          icon: Icons.person_add,
+          color: Colors.teal,
+          route: '/register',
+        ),
+      ]);
+    }
+
+    return menus;
   }
 
   Widget _buildDashboardMenu(

@@ -1,4 +1,6 @@
+
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class AuthService {
@@ -18,6 +20,13 @@ class AuthService {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
+
+        if (data['success']) {
+          // Simpan role pengguna ke SharedPreferences
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('role', data['data']['role']); // Simpan role pengguna
+        }
+
         return {
           'success': data['success'],
           'message': data['message'],
@@ -29,6 +38,18 @@ class AuthService {
     } catch (e) {
       throw Exception('Terjadi kesalahan: $e');
     }
+  }
+
+  // Fungsi untuk mendapatkan role pengguna
+  static Future<String?> getUserRole() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role'); // Ambil role dari SharedPreferences
+  }
+
+  // Fungsi Logout
+  static Future<void> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('role'); // Hapus role dari SharedPreferences saat logout
   }
 
   // Fungsi Registrasi
