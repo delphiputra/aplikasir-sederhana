@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: const Text(
-            'Login',
+            'Aplikasi Kasir',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
