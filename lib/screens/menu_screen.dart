@@ -180,9 +180,11 @@ class _MenuScreenState extends State<MenuScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kelola Menu'),
+        backgroundColor: Colors.teal.shade200,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _addOrUpdateMenu(),
+        backgroundColor: Colors.teal.shade300,
         child: const Icon(Icons.add),
       ),
       body: _isLoading

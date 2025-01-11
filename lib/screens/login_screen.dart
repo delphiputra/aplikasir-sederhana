@@ -74,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Colors.blueGrey[50],
+        backgroundColor: const Color(0xFFEFF7F6), // Warna latar belakang sesuai tema
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
@@ -92,13 +92,14 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // Logo
                 Container(
-                  height: 100,
-                  width: 100,
+                  height: 120,
+                  width: 120,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/images/logo.png'), // Sesuaikan path logo
                       fit: BoxFit.cover,
                     ),
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -115,8 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: 'Username',
                           prefixIcon: const Icon(Icons.person),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
@@ -133,8 +136,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: 'Password',
                           prefixIcon: const Icon(Icons.lock),
                           border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
+                            borderRadius: BorderRadius.circular(16),
                           ),
+                          filled: true,
+                          fillColor: Colors.white,
                         ),
                         obscureText: true,
                         validator: (value) {
@@ -152,15 +157,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           : ElevatedButton(
                               onPressed: _login,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blueAccent,
-                                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                                backgroundColor: const Color(0xFF7ED4D5),
+                                padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 14),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                               child: const Text(
                                 'Login',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 18, color: Colors.white),
                               ),
                             ),
                     ],

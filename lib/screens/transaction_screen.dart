@@ -217,52 +217,74 @@ class _TransactionScreenState extends State<TransactionScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kelola Transaksi'),
+        backgroundColor: Colors.teal.shade200,
       ),
       body: Column(
         children: [
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
-                : _transactions.isEmpty
-                    ? const Center(child: Text('Tidak ada transaksi'))
-                    : ListView.builder(
-                        itemCount: _transactions.length,
-                        itemBuilder: (context, index) {
-                          final transaction = _transactions[index];
-                          return Card(
-                            elevation: 4,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: ListTile(
-                              title: Text(transaction.menuName),
-                              subtitle: Text(
-                                  'Jumlah: ${transaction.quantity}, Total: Rp ${transaction.totalPrice.toStringAsFixed(0)}'),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete, color: Colors.red),
-                                onPressed: () async {
-                                  await _deleteTransaction(transaction.id);
+                : Column(
+                    children: [
+                      Expanded(
+                        child: _transactions.isEmpty
+                            ? const Center(child: Text('Tidak ada transaksi'))
+                            : ListView.builder(
+                                itemCount: _transactions.length,
+                                itemBuilder: (context, index) {
+                                  final transaction = _transactions[index];
+                                  return Card(
+                                    elevation: 4,
+                                    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundColor: Colors.teal.shade100,
+                                        child: const Icon(Icons.fastfood, color: Colors.teal),
+                                      ),
+                                      title: Text(
+                                        transaction.menuName,
+                                        style: const TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Text(
+                                          'Jumlah: ${transaction.quantity}, Total: Rp ${transaction.totalPrice.toStringAsFixed(0)}'),
+                                      trailing: IconButton(
+                                        icon: const Icon(Icons.delete, color: Colors.red),
+                                        onPressed: () async {
+                                          await _deleteTransaction(transaction.id);
+                                        },
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
-                            ),
-                          );
-                        },
                       ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+                        child: ElevatedButton.icon(
+                          onPressed: _addTransaction,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.teal.shade300,
+                            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                          ),
+                          icon: const Icon(Icons.add, color: Colors.white),
+                          label: const Text(
+                            'Tambah Transaksi',
+                            style: TextStyle(color: Colors.white, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
           ),
-          Center(
-            child: ElevatedButton(
-              onPressed: _finishOrder,
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 32),
-              ),
-              child: const Text(
-                'SELESAI PESANAN',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
           Container(
+            color: Colors.grey.shade100,
             padding: const EdgeInsets.all(16),
-            color: Colors.grey.shade200,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -270,15 +292,24 @@ class _TransactionScreenState extends State<TransactionScreen> {
                   'Total Semua: Rp ${_calculateTotal().toStringAsFixed(0)}',
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
+                ElevatedButton(
+                  onPressed: _finishOrder,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal.shade300,
+                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
+                  child: const Text(
+                    'Pesanan Selesai',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
               ],
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addTransaction,
-        label: const Text('Tambah Transaksi'),
-        icon: const Icon(Icons.add),
       ),
     );
   }

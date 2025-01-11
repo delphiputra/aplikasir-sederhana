@@ -17,7 +17,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? _selectedRole;
   bool _isLoading = false;
-  List<User> _users = []; // Daftar akun
+  List<User> _users = [];
 
   @override
   void dispose() {
@@ -69,7 +69,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             backgroundColor: Colors.green,
           ),
         );
-        _fetchUsers(); // Perbarui daftar akun
+        _fetchUsers();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -218,6 +218,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Registrasi Pengguna'),
+          backgroundColor: Colors.teal.shade200,
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -279,7 +280,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _register,
-                      child: const Text('Register'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal.shade300,
+                        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 32),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ),
+                      child: const Text(
+                        'Register',
+                        style: TextStyle(color: Colors.white), // Ubah teks menjadi putih
+                      ),
                     ),
               const SizedBox(height: 16),
               Expanded(
@@ -291,18 +302,25 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           final user = _users[index];
                           return Card(
                             elevation: 4,
+                            margin: const EdgeInsets.only(bottom: 8),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
                             child: ListTile(
-                              title: Text(user.username),
+                              title: Text(
+                                user.username,
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
                               subtitle: Text('Role: ${user.role}'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: const Icon(Icons.edit),
+                                    icon: const Icon(Icons.edit, color: Colors.blue),
                                     onPressed: () => _updateUser(user),
                                   ),
                                   IconButton(
-                                    icon: const Icon(Icons.delete),
+                                    icon: const Icon(Icons.delete, color: Colors.red),
                                     onPressed: () => _deleteUser(user.id),
                                   ),
                                 ],

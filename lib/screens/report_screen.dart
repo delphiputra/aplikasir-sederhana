@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/report_service.dart'; // Pastikan file ini diimpor dengan benar
+import '../services/report_service.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
@@ -107,6 +107,7 @@ class _ReportScreenState extends State<ReportScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Generate Laporan'),
+        backgroundColor: Colors.teal.shade200,
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -124,18 +125,37 @@ class _ReportScreenState extends State<ReportScreen> {
                     return Card(
                       elevation: 4,
                       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: ListTile(
-                        title: Text('Menu: ${report['menu_name']}'),
+                        contentPadding: const EdgeInsets.all(16.0),
+                        title: Text(
+                          'Menu: ${report['menu_name']}',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Jumlah: ${report['quantity']}'),
-                            Text('Total Harga: Rp ${report['total_price']}'),
-                            Text('Tanggal: ${report['created_at']}'),
+                            Text(
+                              'Jumlah: ${report['quantity']}',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            Text(
+                              'Total Harga: Rp ${report['total_price']}',
+                              style: const TextStyle(fontSize: 14),
+                            ),
+                            Text(
+                              'Tanggal: ${report['created_at']}',
+                              style: const TextStyle(fontSize: 14, color: Colors.grey),
+                            ),
                           ],
                         ),
                         trailing: IconButton(
-                          icon: const Icon(Icons.delete),
+                          icon: const Icon(Icons.delete, color: Colors.red),
                           onPressed: () => _deleteReport(report['id']),
                         ),
                       ),
